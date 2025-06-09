@@ -1,0 +1,73 @@
+.profile-page-container {
+  padding: 40px;
+  text-align: center;
+  background: #f0f2f5;
+  min-height: 100vh;
+}
+
+.profile-title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.no-sports {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.sports-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 per row */
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sports-list li {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sports-list li:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.sports-list a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  padding: 15px;
+}
+
+.sports-list img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.sports-list span {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ff6f61; /* Sport name color */
+  text-transform: uppercase; /* Make the sport name uppercase */
+  letter-spacing: 1px; /* Slightly spaced letters */
+  font-family: 'Poppins', sans-serif;
+}
+
+.sports-list span:hover {
+  color: #333; /* Hover color */
+  text-decoration: underline;
+}

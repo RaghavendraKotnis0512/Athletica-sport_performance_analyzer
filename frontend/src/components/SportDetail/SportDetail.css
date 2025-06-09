@@ -1,0 +1,352 @@
+/* General container styles */
+.sport-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.sport-detail-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Content layout - 3 equal columns */
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.upload-rating-section,
+.leaderboard-section,
+.notes-history-section {
+  flex: 1; /* equal widths */
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Notes history styling */
+.notes-history-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.notes-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.notes-history-item {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* Upload and rating specific */
+.upload-section {
+  margin-bottom: 30px;
+}
+
+.upload-label {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.submit-upload {
+  padding: 12px 30px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-upload:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.ai-result {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #555;
+  padding: 15px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+}
+
+.rating-section {
+  margin-top: 30px;
+}
+
+.rating-label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.rating-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* Placeholder styling for rating input */
+.rating-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.notes-section {
+  margin-top: 40px;
+}
+
+.notes-label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.notes-input {
+  width: 100%;
+  height: 140px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  font-size: 16px;
+  resize: vertical;
+  color: #333;
+}
+
+.submit-notes {
+  margin-top: 15px;
+  padding: 12px 30px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-notes:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.success-message {
+  color: #28a745;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Leaderboard styling */
+.leaderboard-section {
+  background-color: #2d353c;
+  color: #fff;
+}
+
+.leaderboard-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #f0f6fc;
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.leaderboard-item {
+  font-size: 18px;
+  margin-bottom: 18px;
+  color: #c9d1d9;
+}
+
+.leaderboard-item span {
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+.leaderboard-item textarea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.leaderboard-item button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.leaderboard-item button:hover {
+  background-color: #c82333;
+}
+
+/* Performance Insights */
+.performance-insights {
+  margin-top: 40px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.performance-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.performance-insights p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Responsive Layout */
+@media screen and (max-width: 992px) {
+  .content-container {
+    flex-direction: column;
+  }
+
+  .upload-rating-section,
+  .leaderboard-section,
+  .notes-history-section {
+    flex: 1 1 100%;
+    margin-bottom: 30px;
+  }
+
+  .submit-upload,
+  .submit-notes {
+    width: 100%;
+  }
+
+  .notes-input {
+    height: 100px;
+  }
+}
+
+/* Loader animation */
+.loader {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #007bff;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Shot Type Section */
+.shot-type-section {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background-color: #e0f7fa; /* subtle light cyan */
+  border-radius: 8px;
+  display: inline-block;
+  font-weight: 600;
+  color: #00796b; /* teal-ish */
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 121, 107, 0.2);
+}
+
+.shot-type-label {
+  margin-right: 8px;
+  color: #004d40;
+  font-size: 15px;
+}
+
+.shot-type-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Suggestion section */
+.suggestion-section {
+  margin-top: 10px;
+}
+
+.suggestion-label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.suggestion-text {
+  font-style: italic;
+  color: #444;
+}
+
+/* Export CSV button */
+.export-csv-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.export-csv-button:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+}
