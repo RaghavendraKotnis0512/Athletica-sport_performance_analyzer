@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+
 import {
   LineChart,
   Line,
@@ -17,7 +19,9 @@ const CONFIDENCE_THRESHOLD = 0.5;
 
 const SportDetail = () => {
   const location = useLocation();
-  const { sportName } = location.state || { sportName: "Unknown Sport" };
+  const { sportId } = useParams();
+const sportName = sportId || "Unknown Sport";
+
 
   const [rating, setRating] = useState(null);
   const [shotType, setShotType] = useState(null);
@@ -58,6 +62,7 @@ const SportDetail = () => {
 
     const formData = new FormData();
     formData.append("image", uploadedFile);
+    formData.append("sport", sportName.toLowerCase());
 
     setIsAnalyzing(true);
     resetResults();
@@ -65,8 +70,7 @@ const SportDetail = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/rate",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        formData
       );
       
 
@@ -144,6 +148,7 @@ const SportDetail = () => {
 
     setTimeout(() => setSuccessMessage(""), 2000);
   };
+  
 
   const getSuggestion = (rating) => {
     const score = parseFloat(rating);

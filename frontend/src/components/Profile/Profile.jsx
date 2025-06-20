@@ -15,7 +15,7 @@ const Profile = () => {
         <ul className="sports-list">
           {selectedSports.map((sport, index) => (
             <li key={index}>
-              <Link to={`/sport-detail/${sport}`}>
+              <Link to={`/sport-detail/${sport.toLowerCase()}`}>
                 {/* Assuming sport.name holds the sport name */}
                 <img src={`sport-detail/${sport}.jpg`} alt={sport} />
                 <span>{sport}</span>

@@ -18,7 +18,7 @@ app.use(cors({
 app.use(express.json());
 
 // Mount routes
-app.use('/api/rate', upload.single('image'), ratingRoutes);
+app.use('/api/rate', ratingRoutes);
 
 app.get('/', (req, res) => res.send('Server is running'));
 
