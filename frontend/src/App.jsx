@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import SelectSports from './components/Select/SelectSports';
 import Profile from './components/Profile/Profile';
 import SportDetail from './components/SportDetail/SportDetail';
+import EditProfile from './components/EditProfile/EditProfile';
 
 function App() {
   // Initialize selectedSports state
@@ -27,6 +28,8 @@ function App() {
             path="/sport-detail/:sportId" 
             element={<SportDetail />} 
           />
+          <Route path="/edit-profile" element={<EditProfile />} />
+
         </Routes>
       </Router>
     </>

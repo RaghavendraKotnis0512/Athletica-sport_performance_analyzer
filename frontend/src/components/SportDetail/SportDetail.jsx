@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -11,6 +11,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { db } from "../../firebase"; // assumes firebase.js is in src and exports 'db'
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import "./SportDetail.css";
 
 const CONFIDENCE_THRESHOLD = 0.5;
@@ -30,6 +32,25 @@ const SportDetail = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showAllAttempts, setShowAllAttempts] = useState(false);
+
+  useEffect(() => {
+    const fetchAttempts = async () => {
+      const q = query(collection(db, "attempts"), where("sport", "==", sportName));
+      const snapshot = await getDocs(q);
+      const data = snapshot.docs.map(doc => doc.data());
+      setLeaderboard(data);
+    };
+
+    const fetchNotes = async () => {
+      const q = query(collection(db, "notes"), where("sport", "==", sportName));
+      const snapshot = await getDocs(q);
+      const data = snapshot.docs.map(doc => doc.data());
+      setNotesHistory(data);
+    };
+
+    fetchAttempts();
+    fetchNotes();
+  }, [sportName]);
 
   const resetResults = () => {
     setRating(null);
@@ -96,13 +117,12 @@ const SportDetail = () => {
             name: `Attempt ${leaderboard.length + 1}`,
             rating: Number(ratingPercent),
             shotType: topPrediction.class || "Unknown Shot",
-            notes: "",
+            sport: sportName,
+            timestamp: new Date().toISOString(),
           };
+
+          await addDoc(collection(db, "attempts"), newEntry);
           setLeaderboard([...leaderboard, newEntry]);
-
-          // OPTIONAL: Send to backend to store in DB
-          // await axios.post("http://localhost:8080/api/attempts", { sport: sportName, ...newEntry });
-
         } else {
           setAiResultMessage("Detected object confidence too low. Try a clearer image.");
         }
@@ -128,14 +148,13 @@ const SportDetail = () => {
     const newNote = {
       text: notes,
       timestamp: new Date().toLocaleString(),
+      sport: sportName,
     };
 
+    await addDoc(collection(db, "notes"), newNote);
     setNotesHistory([...notesHistory, newNote]);
     setNotes("");
     setSuccessMessage("Note saved!");
-
-    // OPTIONAL: Save notes to DB
-    // await axios.post("http://localhost:8080/api/notes", { sport: sportName, ...newNote });
 
     setTimeout(() => setSuccessMessage(""), 2000);
   };

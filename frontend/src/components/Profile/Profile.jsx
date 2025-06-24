@@ -11,6 +11,13 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
+  const sportImages = {
+    tennis: "/src/assets/tennis-raketki-myach-sport-104657.jpeg",
+    // Add more sports as needed
+    cricket: "src/assets/sports-cricket-313281.jpeg"
+  };
+  
+
   useEffect(() => {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -67,14 +74,15 @@ const Profile = () => {
         <p className="no-sports">You haven't selected any sports yet!</p>
       ) : (
         <ul className="sports-list">
-          {selectedSports.map((sport, index) => (
-            <li key={index} className="sport-card">
-              <Link to={`/sport-detail/${sport.toLowerCase()}`}>
-                <img src={`/assets/${sport.toLowerCase()}.jpg`} alt={sport} />
-                <span>{sport}</span>
-              </Link>
-            </li>
-          ))}
+        {selectedSports.map((sport, index) => (
+  <li key={index} className="sport-card">
+    <Link to={`/sport-detail/${sport.toLowerCase()}`}>
+      <img src={sportImages[sport.toLowerCase()] || "/assets/default-sport.jpg"} alt={sport} />
+      <span>{sport}</span>
+    </Link>
+  </li>
+))}
+
         </ul>
       )}
 
