@@ -77,7 +77,7 @@ const Profile = () => {
         {selectedSports.map((sport, index) => (
   <li key={index} className="sport-card">
     <Link to={`/sport-detail/${sport.toLowerCase()}`}>
-      <img src={sportImages[sport.toLowerCase()] || "/assets/default-sport.jpg"} alt={sport} />
+      <img src={sportImages[sport.toLowerCase()]} alt={sport} />
       <span>{sport}</span>
     </Link>
   </li>
