@@ -6,8 +6,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase.js"; // Make sure this points to your initialized Firestore instance
 
 const sports = [
-  { id: 3, name: "Tennis", image: "src/assets/tennis-raketki-myach-sport-104657.jpeg" },
-  { id: 4, name: "Cricket", image: "src/assets/sports-cricket-313281.jpeg" },
+  { id: 3, name: "Tennis", image: "public/assets/tennis-raketki-myach-sport-104657.jpeg" },
+  { id: 4, name: "Cricket", image: "public/assets/sports-cricket-313281.jpeg" },
   // Add more as needed
 ];
 
