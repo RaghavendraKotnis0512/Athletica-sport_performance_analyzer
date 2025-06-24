@@ -1,35 +1,63 @@
-import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SelectSports.css";
+import { getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase.js"; // Make sure this points to your initialized Firestore instance
 
 const sports = [
-  { id: 1, name: "Football", image: "src/assets/jason-charters-IorqsMssQH0-unsplash.jpg" },
-  { id: 2, name: "Basketball", image: "src/assets/markus-spiske-BfphcCvhl6E-unsplash.jpg" },
   { id: 3, name: "Tennis", image: "src/assets/tennis-raketki-myach-sport-104657.jpeg" },
   { id: 4, name: "Cricket", image: "src/assets/sports-cricket-313281.jpeg" },
-  { id: 5, name: "Swimming", image: "src/assets/sports-swimming-551152.jpeg" },
-  { id: 6, name: "Running", image: "src/assets/pexels-pixabay-34514.jpg" },
-  // Add more sports
+  // Add more as needed
 ];
 
 const SelectSports = () => {
   const [selectedSports, setSelectedSports] = useState([]);
-  const navigate = useNavigate();  // Use navigate hook here
+  const navigate = useNavigate();
+
+  // Load from localStorage (optional)
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("selectedSports"));
+    if (saved) setSelectedSports(saved);
+  }, []);
+
+  // Save to localStorage (optional)
+  useEffect(() => {
+    localStorage.setItem("selectedSports", JSON.stringify(selectedSports));
+  }, [selectedSports]);
 
   const handleSportClick = (sportName) => {
-    if (selectedSports.includes(sportName)) {
-      setSelectedSports(selectedSports.filter((name) => name !== sportName));
-    } else {
-      setSelectedSports([...selectedSports, sportName]);
-    }
+    setSelectedSports((prev) =>
+      prev.includes(sportName)
+        ? prev.filter((name) => name !== sportName)
+        : [...prev, sportName]
+    );
   };
 
-  const handleContinue = () => {
-    if (selectedSports.length > 0) {
-      // Pass selected sports to Profile page using navigate state
-      navigate("/profile", { state: { selectedSports } });
-    } else {
+  const handleContinue = async () => {
+    if (selectedSports.length === 0) {
       alert("Please select at least one sport to continue.");
+      return;
+    }
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("User not logged in.");
+      return;
+    }
+
+    try {
+      // Update Firestore with selected sports
+      await setDoc(doc(db, "users", user.uid), {
+        selectedSports,
+      }, { merge: true });
+
+      navigate("/profile", { state: { selectedSports } });
+    } catch (error) {
+      console.error("Error saving sports:", error);
+      alert("Something went wrong while saving your preferences.");
     }
   };
 
@@ -40,8 +68,11 @@ const SelectSports = () => {
         {sports.map((sport) => (
           <div
             key={sport.id}
+            role="button"
+            tabIndex="0"
             className={`sport-card ${selectedSports.includes(sport.name) ? "selected" : ""}`}
             onClick={() => handleSportClick(sport.name)}
+            onKeyDown={(e) => e.key === "Enter" && handleSportClick(sport.name)}
           >
             <img src={sport.image} alt={sport.name} className="sport-image" />
             <div className="sport-name">{sport.name}</div>

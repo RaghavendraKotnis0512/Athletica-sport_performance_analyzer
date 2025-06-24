@@ -13,6 +13,7 @@
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.9.0",
     "file-saver": "^2.0.5",
+    "firebase": "^11.9.1",
     "inferencejs": "^1.0.21",
     "papaparse": "^5.5.3",
     "react": "^19.0.0",

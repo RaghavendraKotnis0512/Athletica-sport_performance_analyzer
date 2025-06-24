@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-
 import {
   LineChart,
   Line,
@@ -20,8 +18,7 @@ const CONFIDENCE_THRESHOLD = 0.5;
 const SportDetail = () => {
   const location = useLocation();
   const { sportId } = useParams();
-const sportName = sportId || "Unknown Sport";
-
+  const sportName = sportId || "Unknown Sport";
 
   const [rating, setRating] = useState(null);
   const [shotType, setShotType] = useState(null);
@@ -32,6 +29,7 @@ const sportName = sportId || "Unknown Sport";
   const [aiResultMessage, setAiResultMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showAllAttempts, setShowAllAttempts] = useState(false);
 
   const resetResults = () => {
     setRating(null);
@@ -42,7 +40,6 @@ const sportName = sportId || "Unknown Sport";
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     resetResults();
-
     if (!file) return;
 
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
@@ -68,21 +65,13 @@ const sportName = sportId || "Unknown Sport";
     resetResults();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/rate",
-        formData
-      );
-      
-
+      const response = await axios.post("http://localhost:8080/api/rate", formData);
       const data = response.data;
       const outputs = data?.result?.outputs ?? [];
-
       let predictions = [];
 
       if (outputs.length > 0) {
-        predictions =
-          outputs[0]?.classification_predictions?.[0]?.predictions?.predictions ?? [];
-
+        predictions = outputs[0]?.classification_predictions?.[0]?.predictions?.predictions ?? [];
         if (predictions.length === 0) {
           predictions = outputs[0]?.detection_predictions?.predictions ?? [];
         }
@@ -101,11 +90,8 @@ const sportName = sportId || "Unknown Sport";
           const ratingPercent = (confidence * 100).toFixed(2);
           setRating(ratingPercent);
           setShotType(topPrediction.class || "Unknown Shot");
-          setAiResultMessage(
-            `Detected shot: ${topPrediction.class} with confidence: ${ratingPercent}%`
-          );
+          setAiResultMessage(`Detected shot: ${topPrediction.class} with confidence: ${ratingPercent}%`);
 
-          // Add to leaderboard immediately upon analysis
           const newEntry = {
             name: `Attempt ${leaderboard.length + 1}`,
             rating: Number(ratingPercent),
@@ -113,10 +99,12 @@ const sportName = sportId || "Unknown Sport";
             notes: "",
           };
           setLeaderboard([...leaderboard, newEntry]);
+
+          // OPTIONAL: Send to backend to store in DB
+          // await axios.post("http://localhost:8080/api/attempts", { sport: sportName, ...newEntry });
+
         } else {
-          setAiResultMessage(
-            "Detected object confidence too low. Try a clearer image."
-          );
+          setAiResultMessage("Detected object confidence too low. Try a clearer image.");
         }
       } else {
         setAiResultMessage("No objects detected. Try another image.");
@@ -131,7 +119,7 @@ const sportName = sportId || "Unknown Sport";
 
   const handleNotesChange = (e) => setNotes(e.target.value);
 
-  const handleSubmitNotes = () => {
+  const handleSubmitNotes = async () => {
     if (notes.trim() === "") {
       alert("Please write some notes before submitting.");
       return;
@@ -146,9 +134,11 @@ const sportName = sportId || "Unknown Sport";
     setNotes("");
     setSuccessMessage("Note saved!");
 
+    // OPTIONAL: Save notes to DB
+    // await axios.post("http://localhost:8080/api/notes", { sport: sportName, ...newNote });
+
     setTimeout(() => setSuccessMessage(""), 2000);
   };
-  
 
   const getSuggestion = (rating) => {
     const score = parseFloat(rating);
@@ -168,21 +158,11 @@ const sportName = sportId || "Unknown Sport";
         <div className="upload-rating-section">
           <div className="upload-section">
             <label className="upload-label">Upload an Image of Your Performance:</label>
-            <input
-              type="file"
-              accept="image/jpeg, image/png"
-              onChange={handleFileUpload}
-            />
-            <button
-              className="submit-upload"
-              onClick={handleFileAnalysis}
-              disabled={isAnalyzing}
-            >
+            <input type="file" accept="image/jpeg, image/png" onChange={handleFileUpload} />
+            <button className="submit-upload" onClick={handleFileAnalysis} disabled={isAnalyzing}>
               Analyze Performance
             </button>
-            {isAnalyzing && (
-              <div className="loader">Analyzing your performance...</div>
-            )}
+            {isAnalyzing && <div className="loader">Analyzing your performance...</div>}
           </div>
 
           <div className="rating-section">
@@ -221,21 +201,25 @@ const sportName = sportId || "Unknown Sport";
             <button className="submit-notes" onClick={handleSubmitNotes}>
               Submit Notes
             </button>
-            {successMessage && (
-              <div className="success-message">{successMessage}</div>
-            )}
+            {successMessage && <div className="success-message">{successMessage}</div>}
           </div>
         </div>
 
         <div className="leaderboard-section">
           <h2 className="leaderboard-title">Analyzed Performances</h2>
           <ul className="leaderboard-list">
-            {leaderboard.map((entry, index) => (
+            {(showAllAttempts ? leaderboard : leaderboard.slice(-3)).map((entry, index) => (
               <li key={index} className="leaderboard-item">
                 {entry.name}: {entry.rating} ⭐ - {entry.shotType}
               </li>
             ))}
           </ul>
+
+          {leaderboard.length > 3 && (
+            <button onClick={() => setShowAllAttempts(!showAllAttempts)} className="show-toggle-button">
+              {showAllAttempts ? "Show Less" : "Show All"}
+            </button>
+          )}
         </div>
 
         <div className="notes-history-section">
@@ -267,9 +251,7 @@ const sportName = sportId || "Unknown Sport";
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <p>
-            Your performance over time will be shown here. Upload and analyze some performances first.
-          </p>
+          <p>Your performance over time will be shown here. Upload and analyze some performances first.</p>
         )}
       </div>
     </div>

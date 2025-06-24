@@ -130,4 +130,65 @@ body {
     font-size: 0.875rem;
     color: #666;
   }
+  .auth-options .auth-option:last-child {
+    background-color: transparent;
+    color: #0366d6;
+    border: 1px solid #0366d6;
+  }
   
+  .auth-options .auth-option:last-child:hover {
+    background-color: #0366d6;
+    color: white;
+  }
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 2rem;
+      width: 90%;
+    }
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e4ebf5 100%);
+    margin: 0;
+    padding: 0;
+  }
+  .login-container {
+    animation: fadeSlide 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  @keyframes fadeSlide {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .login-container {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .input-wrapper input {
+    padding-left: 2.5rem;
+  }
+  
+  .loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0366d6;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    margin: 1rem auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+      
