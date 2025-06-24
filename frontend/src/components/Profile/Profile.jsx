@@ -12,9 +12,9 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const sportImages = {
-    tennis: "/public/assets/tennis-raketki-myach-sport-104657.jpeg",
+    tennis: "/assets/tennis-raketki-myach-sport-104657.jpeg",
     // Add more sports as needed
-    cricket: "public/assets/sports-cricket-313281.jpeg"
+    cricket: "/assets/sports-cricket-313281.jpeg"
   };
   
 
